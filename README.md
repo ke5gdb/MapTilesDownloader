@@ -12,10 +12,14 @@ This tiny python based script allows you to download map tiles from Google, Bing
 
 ## Installation on Raspberry Pi for use with chasemapper
 ```sh
-sudo apt-get install python3-pip libopenjp2-7-dev libtiff5
-pip3 install pillow
-cd /home/pi
+sudo apt install python3-pip libopenjp2-7-dev libtiff5 python3-pillow
+cd ~/
 git clone https://github.com/Moll1989/MapTilesDownloader
+```
+
+If your username is not the default 'pi' then you must edit the systemd unit configuration in `~/MapTilesDownloader/maptilesdownloader.service` and replace all references to `/home/pi/` with `/home/USER/` where USER is your username.
+
+```sh
 sudo mv MapTilesDownloader/maptilesdownloader.service /etc/systemd/system/maptilesdownloader.service
 sudo chmod 644 /etc/systemd/system/maptilesdownloader.service
 sudo systemctl daemon-reload
