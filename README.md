@@ -10,7 +10,7 @@
 
 This tiny python based script allows you to download map tiles from Google, Bing, Open Street Maps, ESRI, NASA, and other providers. This script comes with an easy to use web based map UI for selecting the area and previewing tiles.
 
-**Installation on Raspberry Pi for use with chasemapper**
+## Installation on Raspberry Pi for use with chasemapper
 ```sh
 sudo apt-get install python3-pip libopenjp2-7-dev libtiff5
 pip3 install pillow
@@ -21,10 +21,12 @@ sudo chmod 644 /etc/systemd/system/maptilesdownloader.service
 sudo systemctl daemon-reload
 sudo systemctl enable maptilesdownloader
 sudo systemctl start maptilesdownloader
-ln -s /home/pi/MapTilesDownloader/src/output /home/pi/Maps
+ln -s /home/$(whoami)/MapTilesDownloader/src/output /home/$(whoami)/Maps
 ```
 
-Then open up the device you use for viewing chasemapper and navigate to port 5002 instead of 5001. The output map tiles will be in the `~/Maps/` directory by default.
+Then open up the device you use for viewing chasemapper and navigate to port 5002 instead of 5001.
+
+The output map tiles will be in the `~/MapTilesDownloader/src/output` directory.  However, we have created a symbolic link to `~/Maps` which is the default map tile location for chasemapper.  When configuring chasemapper.cfg, ensure that `tile_server_path` is set to `/home/USER/Maps`, where USER is your username (eg. pi).
 
 ## Requirements
 
@@ -55,7 +57,7 @@ Downloading map tiles is subject to the terms and conditions of the tile provide
 
 ## Stay In Touch
 
-For latest releases and announcements, check out my site: [aliashraf.net](http://aliashraf.net)
+For latest releases and announcements, check out the original author's site: [aliashraf.net](http://aliashraf.net)
 
 ## License
 
