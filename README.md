@@ -10,6 +10,44 @@
 
 This tiny python based script allows you to download map tiles from Google, Bing, Open Street Maps, ESRI, NASA, and other providers. This script comes with an easy to use web based map UI for selecting the area and previewing tiles.
 
+## Run with Docker
+
+To run MapTilesDownloader temporarily so you can load maps before a chase, run this command and navigate to port 5002.
+
+```console
+docker run \
+  -t \
+  --name maptilesdownloader \
+  --network=host \
+  -v ~/Maps/:/opt/MapTilesDownloader/output/ \
+  ghcr.io/ke5gdb/maptilesdownloader:latest
+```
+
+To launch MapsTileDownloader on every boot, run:
+
+```console
+docker run \
+  -d \
+  -t \
+  --restart=always \
+  --name maptilesdownloader \
+  --network=host \
+  -v ~/Maps/:/opt/MapTilesDownloader/output/ \
+  ghcr.io/ke5gdb/maptilesdownloader:latest
+```
+
+Sample `docker-compose.yml` instance:
+```
+services:
+  maptilesdownloader:
+    image: ghcr.io/ke5gdb/maptilesdownloader:latest
+    restart: 'always'
+    network_mode: host
+    tty: true
+    volumes:
+      - ~/Maps/:/opt/MapTilesDownloader/output/
+```
+
 ## Installation on Raspberry Pi for use with chasemapper
 ```sh
 sudo apt install python3-pip libopenjp2-7-dev libtiff5 python3-pillow
