@@ -37,13 +37,18 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: set lower case repo name
+        run: |
+          REPO=${{ github.repository }}
+          echo "REPO_LC=${REPO,,}" >> $GITHUB_ENV
+
       - name: Build Images
         if: ${{ github.event_name == 'pull_request' }}
         uses: docker/build-push-action@v3
         with:
           context: .
           platforms: linux/amd64, linux/386, linux/arm64, linux/arm/v6, linux/arm/v7
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+          cache-from: type=registry,ref=ghcr.io/${{ env.REPO_LC }}:buildcache
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           
@@ -53,8 +58,8 @@ jobs:
         with:
           context: .
           platforms: linux/amd64, linux/386, linux/arm64, linux/arm/v6, linux/arm/v7
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ env.REPO_LC }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ env.REPO_LC }}:buildcache,mode=max
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
